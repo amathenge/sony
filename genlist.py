@@ -7,7 +7,8 @@ import taglib
 class CEmpty:
     pass
 
-flist = [os.path.join(root,i) for root, dirs, files in os.walk('D:\\MUSIC') for i in files if i[-3:] in ('mp3','m4a')]
+sony_walkman = '/media/usb/MUSIC'
+flist = [os.path.join(root,i) for root, dirs, files in os.walk(sony_walkman) for i in files if i[-3:] in ('mp3','m4a')]
 
 o = open('sonysongs.txt','w')
 counter = 0
@@ -15,7 +16,7 @@ counter = 0
 for item in flist:
     counter += 1
     song_length = 0
-    album = item[item.rfind('\\')+1:][:-4]
+    album = item[item.rfind('/')+1:][:-4]
     if album[len(album)-4] == '.':
         album = album[:-4]
         

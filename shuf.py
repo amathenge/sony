@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-
+#!/usr/bin/env python3
+import subprocess
 '''
     song shuffler.
 
@@ -10,9 +10,24 @@ import random
 # f = open('TonySoft.m3u','r')
 # o = open('out.m3u','w')
 
+# we're getting a file like Playlist.m3u
 inFile = sys.argv[1]
-outFile = inFile + "_Shuffled.m3u"
-f = open(inFile+".m3u", 'r')
+# the output file will be called Playlist_Shuffled.m3u
+outFile = inFile[:-4] + "_Shuffled.m3u"
+#
+# before processing - change the path separator
+# 
+# sed_command = "'s/\//\\/g'"
+# result = os.popen(fr"sed -i 's/\//\\/g' {inFile}")
+# in Python 3 - use the subprocess.Popen() command to run a shell command.
+# in this case, we are changing forward-slashes (/) to backslashes (\) which is
+# what the Sony needs for the playlist.
+sed_process = subprocess.Popen(fr"sed -i 's/\//\\/g' {inFile}", shell=True)
+# note that subprocess.Popen() does not wait, so we have to wait for it to complete the 
+# string replacement.
+sed_process.wait()
+# shuffle to a different file
+f = open(inFile, 'r')
 o = open(outFile, 'w')
 
 items = []
